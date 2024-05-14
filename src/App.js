@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import Selector from "./components/Selector";
+import TextField from "./components/TextField";
+import { useState } from "react";
+import Modal from "./components/Modal";
 
 function App() {
+  const [showModal, setShowModal] = useState(true);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Modal 
+      showModal={showModal}
+      setShowModal={setShowModal}
+      height={700}
+      width={500}
+    />
     </div>
+   
   );
 }
 
