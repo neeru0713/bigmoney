@@ -9,11 +9,6 @@ const indexOptions = [
   { value: "S", label: "Sensex" },
 ];
 
-const pnlOptions = [
-  { value: "P", label: "Profit" },
-  { value: "L", label: "Loss" },
-];
-
 const mistakeTypeValuesOptions = [
   { value: "BP", label: "Bad Psychology" },
   { value: "F", label: "FOMO" },
@@ -27,20 +22,26 @@ const mistakeTypeValuesOptions = [
 ];
 
 // Define user schema
-const userSchema = mongoose.Schema(
+const tradeSchema = mongoose.Schema(
   {
     index: {
       type: String,
       enum: indexOptions.map(option => option.value),
     },
     pnl: {
-      type: String,
-      enum: pnlOptions.map(option => option.value),
+      type: Number,
+    },
+    entryPrice: {
+      type: Number,
+    },
+    exitPrice: {
+      type: Number,
     },
     mistakeType: {
       type: String,
       enum: mistakeTypeValuesOptions.map(option => option.value),
     },
+
   },
   { timestamps: true }
 );
@@ -48,6 +49,6 @@ const userSchema = mongoose.Schema(
 /**
  * @typedef User
  */
-const User = mongoose.model("User", userSchema);
+const Trade = mongoose.model("Trade", tradeSchema);
 
-module.exports = { User };
+module.exports = { Trade };

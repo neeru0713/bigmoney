@@ -1,18 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const authRoutes = require("./routes/authRoutes.js");
-
+const tradeRoutes = require("./routes/tradeRoutes.js");
 const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
-app.use("/api/auth", authRoutes);
+app.use("/api/trade", tradeRoutes);
 
 mongoose
   .connect(
-    "mongodb+srv://neerurani1307:%40Neeru1307@neerucluster.z4krrc9.mongodb.net/registerlogin?retryWrites=true&w=majority",
+    "mongodb+srv://neerurani1307:%40Neeru1307@neerucluster.z4krrc9.mongodb.net/bigmoney?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
