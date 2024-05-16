@@ -1,0 +1,32 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-content{
+  z-index: 1001;
+  /* box-shadow: rgba(15, 181, 120, 0.4) 0px 2px 4px, rgba(54, 218, 103, 0.3) 0px 7px 13px -3px, rgba(40, 177, 72, 0.2) 0px -3px 0px inset; */
+  /* box-shadow: rgba(9, 107, 28, 0.45) 0px 25px 20px -20px; */
+  /* box-shadow: rgba(27, 127, 18, 0.17) 0px -23px 25px 0px inset, rgba(43, 176, 45, 0.15) 0px -36px 30px 0px inset, rgba(20, 172, 71, 0.1) 0px -79px 40px 0px inset, rgba(37, 198, 94, 0.06) 0px 2px 1px, rgba(44, 177, 91, 0.09) 0px 4px 2px, rgba(16, 176, 21, 0.09) 0px 8px 4px, rgba(38, 194, 113, 0.09) 0px 16px 8px, rgba(15, 160, 56, 0.09) 0px 32px 16px; */
+  /* box-shadow: rgba(24, 246, 57, 0.56) 0px 22px 70px 4px; */
+  /* box-shadow: rgba(55, 235, 43, 0.4) 0px 30px 90px; */
+  /* box-shadow: rgba(46, 233, 49, 0.48) 6px 2px 16px 0px, rgba(133, 215, 79, 0.8) -6px -2px 16px 0px; */
+}
+
+/* .green-shadow{
+  box-shadow: rgba(46, 233, 49, 0.48) 6px 2px 16px 0px, rgba(133, 215, 79, 0.8) -6px -2px 16px 0px;
+}
+
+.red-shadow{
+  box-shadow: rgba(235, 36, 36, 0.48) 6px 2px 16px 0px, rgba(236, 43, 43, 0.8) -6px -2px 16px 0px;
+}
+
+.gray-shadow{
+  box-shadow: rgba(60, 58, 58, 0.48) 6px 2px 16px 0px, rgba(60, 58, 58, 0.8) -6px -2px 16px 0px;
+} */
+

@@ -7,7 +7,7 @@ const Selector = ({ options, name, value, updateValue }) => {
       id={`${name}-select`}
       value={value}
       onChange={(event) => updateValue(event.target.value)}
-      className="w-[80%] m-1  p-1 border border-2 rounded-lg"
+      className="w-[80%] m-1 p-2 border border-2 border-gray-300 rounded-lg font-semibold"
     >
       {options.map((item, index) => (
         <option key={index} value={item.value}>
