@@ -16,7 +16,7 @@ const NavBar = () => {
         </span>
         <button
           onClick={handleNewTradeClick}
-          className="border rounded-md bg-white text-black font-bold px-1"
+          className="border rounded-md hover:bg-white hover:text-black font-bold px-2 bg-black text-white"
         >
           New Trade
         </button>

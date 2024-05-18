@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TextField = ({type, name, value, placeholder, updateValue, color="black"}) => {
+const TextField = ({type, name, value, placeholder, updateValue, color="black", date, id}) => {
   const styles = {
     color: color,
   }

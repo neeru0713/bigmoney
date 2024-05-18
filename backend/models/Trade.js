@@ -41,6 +41,18 @@ const tradeSchema = mongoose.Schema(
       type: String,
       enum: mistakeTypeValuesOptions.map(option => option.value),
     },
+    lotSize: {
+      type: Number,
+    },
+    returns: {
+      type: Number,
+    },
+    date: {
+      type: String,
+    },
+    time: {
+      type: String,
+    },
 
   },
   { timestamps: true }

@@ -3,25 +3,54 @@ import Selector from "./Selector";
 import TextField from "./TextField";
 
 const Modal = ({ showModal, setShowModal, width, height }) => {
+  const getCurrentTime = () => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
   const [entryPrice, setEntryPrice] = useState();
   const [exitPrice, setExitPrice] = useState();
-  const [mistakeTypeValues, SetMistakeTypeValues] = useState("BP");
+  const [mistakeTypeValues, SetMistakeTypeValues] = useState("");
   const [marketIndex, setMarketIndex] = useState("N");
   const [pnl, setPnl] = useState();
   const [pnlColor, setPnlColor] = useState();
+  const [lotSize, setLotSize] = useState(1);
+  const [returns, setReturns] = useState(0);
+  const today = new Date().toISOString().split("T")[0];
+  const [date, setDate] = useState(today);
+  const [time, setTime] = useState(getCurrentTime());
 
   useEffect(() => {
-    // calculate P&l amount and returns
-    const pnl = exitPrice - entryPrice;
-    const colorval = pnl > 0 ? 'green' : 'red'
-    console.log("colorval : ", colorval)
-    setPnlColor(colorval);
+    const pnl = lotSizeMap[marketIndex] * lotSize * (exitPrice - entryPrice);
+    let returns = ((exitPrice - entryPrice) / entryPrice) * 100;
+    returns = parseFloat(returns.toFixed(2));
+    if (isNaN(returns)) {
+      setReturns(0);
+    } else {
+      setReturns(returns);
+    }
+
+    const colorval = pnl > 0 ? "green" : "red";
+    console.log("colorval : ", colorval);
+    setPnl(colorval);
     setPnl(pnl);
-  }, [entryPrice, exitPrice]);
+  }, [entryPrice, exitPrice, marketIndex, lotSize]);
 
   const styles = {
     height: `${height}px`,
     width: `${width}px`,
+  };
+
+  // lotSizeMap[marketIndex]
+
+  const lotSizeMap = {
+    S: 10,
+    N: 25,
+    NB: 15,
+    FN: 40,
+    MN: 75,
   };
 
   const indexOptions = [
@@ -99,15 +128,59 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
 
   const getShadow = () => {
     let shadowClass;
-    if(!pnl){
-        shadowClass = 'gray-shadow'
-    } else if(pnl && pnl > 0){
-        shadowClass = 'green-shadow'
-    } else if(pnl && pnl < 0){
-        shadowClass = 'red-shadow'
+    if (!pnl) {
+      shadowClass = "gray-shadow";
+    } else if (pnl && pnl > 0) {
+      shadowClass = "green-shadow";
+    } else if (pnl && pnl < 0) {
+      shadowClass = "red-shadow";
     }
     return shadowClass;
-  }
+  };
+
+  const saveHandler = (e) => {
+    e.preventDefault();
+
+    const postData = {
+      entryPrice,
+      exitPrice,
+      marketIndex,
+      pnl,
+      mistakeTypeValues,
+      lotSize,
+      returns,
+      date,
+      time,
+    };
+
+    fetch("http://localhost:8080/api/trade", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    })
+      .then((response) => {
+        // if (!response.ok) {
+
+        //   throw new Error("Email already taken");
+        // }
+
+        return response.json();
+      })
+
+      .then((data) => {
+        // setUser(data.user);
+      })
+      .catch((error) => {
+        // setIsShowNotification(true)
+        // setNotificationData({
+        //     severity: 'error',
+        //     message: error.message,
+        // })
+        // console.error("Error registering user:", error);
+      });
+  };
 
   return (
     showModal && (
@@ -116,6 +189,7 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
           className={`modal-content rounded-lg flex flex-col fixed p-2 border border-gray-300 top-[8%] left-[35%] bg-white ${getShadow()}`}
           style={styles}
         >
+          <h2 className="p-2 text-2xl font-bold">Basic Info</h2>
           <Selector
             name="market-index"
             options={indexOptions}
@@ -124,11 +198,33 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
           />
           <TextField
             type="number"
+            placeholder={lotSize}
+            name="Lot Size"
+            value={lotSize}
+            updateValue={setLotSize}
+          />
+          <TextField
+            type="date"
+            id="date"
+            name="date"
+            value={date}
+            updateValue={setDate}
+          />
+          <TextField
+            type="time"
+            id="time"
+            name="time"
+            value={time}
+            updateValue={setTime}
+          />
+          <TextField
+            type="number"
             placeholder="Entry Price"
             name="Entry Price"
             value={entryPrice}
             updateValue={setEntryPrice}
           />
+
           <TextField
             type="number"
             placeholder="Exit Price"
@@ -146,26 +242,49 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
               updateValue={setPnl}
             />
 
-            { (pnl>0) ? (
-              <div className="bg-[#0a9981] rounded h-8 w-8"></div>
-            ) : (
-              <div className="bg-[#f23545] rounded h-8 w-8"></div>
+            {returns === 0 && (
+              <div className="bg-gray-100 text-gray-600 font-bold rounded p-1">
+                {returns}%
+              </div>
+            )}
+
+            {returns != 0 && (
+              <>
+                {pnl > 0 ? (
+                  <div className="bg-green-100 text-green-600 font-bold rounded p-1">
+                    {returns}%
+                  </div>
+                ) : (
+                  <div className="bg-red-100 text-red-600 font-bold rounded p-1">
+                    {returns}%
+                  </div>
+                )}
+              </>
             )}
           </div>
-
-          <Selector
-            name="mistakeTypeValues"
-            options={mistakeTypeValuesOptions}
-            value={mistakeTypeValues}
-            updateValue={SetMistakeTypeValues}
-          />
+          {pnl < 0 ? (
+            <Selector
+              name="mistakeTypeValues"
+              options={mistakeTypeValuesOptions}
+              value={mistakeTypeValues}
+              updateValue={SetMistakeTypeValues}
+            />
+          ) : null}
 
           <div className="flex gap-2 m-2">
-            <button onClick={() =>{setShowModal(false)}} className="border border-red-600 rounded-md bg-white font-bold text-red-500 p-2 hover:bg-red-500 hover:text-white">
+            <button
+              onClick={() => {
+                setShowModal(false);
+              }}
+              className="border border-red-600 rounded-md bg-white font-bold text-red-500 p-2 hover:bg-red-500 hover:text-white"
+            >
               Cancel
             </button>
 
-            <button className="border border-[#0a9981] font-bold rounded-md bg-white text-[#0a9981] px-2 hover:bg-[#0a9981] hover:text-white">
+            <button
+              onClick={saveHandler}
+              className="border border-[#0a9981] font-bold rounded-md bg-white text-[#0a9981] px-2 hover:bg-[#0a9981] hover:text-white"
+            >
               Save
             </button>
           </div>
