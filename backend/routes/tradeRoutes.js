@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post("/", tradeController.createTrade)
 
+router.get("/", tradeController.getTrade)
+
 module.exports = router;

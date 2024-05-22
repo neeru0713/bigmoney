@@ -24,12 +24,15 @@ const mistakeTypeValuesOptions = [
 // Define user schema
 const tradeSchema = mongoose.Schema(
   {
-    index: {
+    marketIndex: {
       type: String,
-      enum: indexOptions.map(option => option.value),
+      enum: indexOptions?.map(option => option.value),
     },
     pnl: {
       type: Number,
+    },
+    pnlType: {
+      type: String,
     },
     entryPrice: {
       type: Number,
@@ -39,7 +42,7 @@ const tradeSchema = mongoose.Schema(
     },
     mistakeType: {
       type: String,
-      enum: mistakeTypeValuesOptions.map(option => option.value),
+      enum: mistakeTypeValuesOptions?.map(option => option.value),
     },
     lotSize: {
       type: Number,
@@ -53,6 +56,9 @@ const tradeSchema = mongoose.Schema(
     time: {
       type: String,
     },
+    setupCheckList: {
+      type: [String],
+    }
 
   },
   { timestamps: true }
