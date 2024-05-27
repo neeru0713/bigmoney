@@ -11,20 +11,22 @@ const TextField = ({
   id,
   checked,
   children,
-  width
+  width,
 }) => {
   let styles = {
     color: color,
-    width: `${width}px`
+    width: `${width}px`,
   };
 
-  if(type === 'checkbox'){
-    styles = {...styles , height: '1.3rem', width: '1.3rem'}
+  if (type === "checkbox") {
+    styles = { ...styles, height: "1.3rem", width: "1.3rem" };
   }
 
   const inputChangeHandler = (event) => {
     if (type === "checkbox") {
       updateValue(name);
+    } else if (type === "number") {
+      updateValue(parseInt(event.target.value));
     } else {
       updateValue(event.target.value);
     }
