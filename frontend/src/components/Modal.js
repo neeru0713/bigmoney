@@ -80,6 +80,7 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
   let styles = {
     height: `${height}px`,
     width: `${width}px`,
+
   };
 
   const lotSizeMap = {

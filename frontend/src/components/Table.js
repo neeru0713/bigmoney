@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import Selector from "./Selector";
 import TextField from "./TextField";
+import Filters from "./Filters";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai"; // Assuming you are using react-icons for the icons
 import Accordion from "./Accordion"; // Ensure this is the correct path to AccordionContent component
 
@@ -51,7 +52,7 @@ const Table = ({ trades, width }) => {
     if (marketIndex === "A") {
       setFilteredTrades([...trades]);
     } else if (marketIndex !== "") {
-      const temp = trades.filter((trade) => trade.marketIndex === marketIndex);
+      const temp = trades?.filter((trade) => trade.marketIndex === marketIndex);
       setFilteredTrades(temp);
     }
   }, [marketIndex]);
@@ -60,7 +61,7 @@ const Table = ({ trades, width }) => {
     if (isNaN(lotSize)) {
       setFilteredTrades([...trades]);
     } else {
-      const temp = trades.filter((trade) => {
+      const temp = trades?.filter((trade) => {
         return trade.lotSize === lotSize;
       });
       setFilteredTrades(temp);
@@ -71,7 +72,7 @@ const Table = ({ trades, width }) => {
     if (pnlType === "A") {
       setFilteredTrades([...trades]);
     } else {
-      const temp = trades.filter((trade) => {
+      const temp = trades?.filter((trade) => {
         return trade.pnlType[0] === pnlType;
       });
       setFilteredTrades(temp);
@@ -155,13 +156,13 @@ const Table = ({ trades, width }) => {
                 className="flex justify-between cursor-pointer items-center ml-2"
                 onClick={() => accordionHandler(index)}
               >
-                {/* <td className="py-2 px-4 border-b border-gray-300">
+                <td className="py-2 px-4 border-b border-gray-300">
                   {openRows.includes(index) ? (
                     <AiOutlineUp />
                   ) : (
                     <AiOutlineDown />
                   )}
-                </td> */}
+                </td>
                 <td className="py-2 px-4 border-b border-gray-300">
                   {marketIndexMap[item?.marketIndex]}
                 </td>
@@ -204,7 +205,7 @@ const Table = ({ trades, width }) => {
                   {item.pnlType}
                 </td>
               </tr>
-              {openRows.includes(index) && (
+              {/* {openRows.includes(index) && (
                 <tr key={`accordion-${index}`}>
                   <td colSpan="10">
                     <Accordion
@@ -212,11 +213,15 @@ const Table = ({ trades, width }) => {
                     />
                   </td>
                 </tr>
-              )}
+              )} */}
             </>
           ))}
         </tbody>
       </table>
+      <div className="flex flex-col">
+      <Filters filteredTrades={filteredTrades} setFilteredTrades={setFilteredTrades} trades={trades}/>
+      <div className="absolute bottom-[46%] border border-gray-400 p-2 left-[5%]">Applied Filter</div>
+    </div>
     </div>
   );
 };
