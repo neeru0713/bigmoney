@@ -9,9 +9,18 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/trade", tradeRoutes);
 
+let mongoURI;
+if (process.env.NODE_ENV === "production") {
+  mongoURI =
+  "mongodb+srv://neerurani1307:%40Neeru1307@neerucluster.z4krrc9.mongodb.net/bigmoney?retryWrites=true&w=majority";
+} else {
+  mongoURI = "mongodb://localhost:27017/bigmoney";
+}
+
+
 mongoose
   .connect(
-    "mongodb+srv://neerurani1307:%40Neeru1307@neerucluster.z4krrc9.mongodb.net/bigmoney?retryWrites=true&w=majority",
+    mongoURI,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
