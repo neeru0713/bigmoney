@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Table from "./Table";
-
+import { API_URL } from "../config.js";
 const HomePage = () => {
   const [trades, setTrades] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
  
 
   function getTrades() {
-    fetch("http://localhost:8080/api/trade", {
+    const url = `${API_URL}/api/trade`;
+    fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -4,7 +4,7 @@ import TextField from "./TextField";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import Notification from "./Notification";
 import { RiStockLine } from "react-icons/ri";
-
+import { API_URL } from "../config.js";
 const Modal = ({ showModal, setShowModal, width, height }) => {
   const getCurrentTime = () => {
     const now = new Date();
@@ -198,7 +198,8 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
       checkedItems,
     };
 
-    fetch("http://localhost:8080/api/trade", {
+    const url = `${API_URL}/api/trade`;
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
