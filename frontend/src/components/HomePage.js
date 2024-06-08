@@ -3,8 +3,10 @@ import Table from "./Table";
 
 const HomePage = () => {
   const [trades, setTrades] = useState([]);
+  const [showFilters, setShowFilters] = useState(false);
+ 
 
-  function getTrades(){
+  function getTrades() {
     fetch("http://localhost:8080/api/trade", {
       method: "GET",
       headers: {
@@ -29,10 +31,17 @@ const HomePage = () => {
     getTrades();
   }, []);
 
+
+
   return (
-    <div className="home">
-      <h1 className="p-2 text-3xl font-bold text-center m-[3%]">Trade List</h1>
-     <Table trades={trades}/>
+    <div className="home m-10 flex flex-col gap-2">
+    
+      <Table
+        trades={trades}
+        setTrades={setTrades}
+        showFilters={showFilters}
+        setShowFilters={setShowFilters}
+      />
     </div>
   );
 };

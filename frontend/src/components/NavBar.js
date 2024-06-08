@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import Modal from "./Modal";
 import Drawer from "./Drawer";
-
+import logo from "./bull-outline.png"
 
 const NavBar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -23,25 +23,29 @@ const NavBar = () => {
 
 
   return (
-    <nav className="bg-black w-[100%]">
-      <div className="nav-container flex justify-between py-2 mx-10">
-        <span id="logo" className="text-white text-2xl">
+    <nav className="bg-primary w-[100%]">
+      <div className="nav-container flex justify-between items-center py-2 mx-10">
+        <div className="flex gap-3 items-center">
+        <img src={logo}  className="h-10 w-10 text-white"/>
+        <span id="logo" className="text-white text-xl">
           BigMoney
         </span>
+        </div>
+      
         <div className="flex gap-2">
         
-        <button
+        <div
           onClick={handleNewTradeClick}
-          className="border rounded-md hover:bg-white hover:text-black font-bold px-2 bg-black text-white"
+          className="text-white px-2 cursor-pointer"
         >
           New Trade
-        </button>
-        <button
+        </div>
+        <div
           onClick={handleMenuClick}
-          className="border rounded-md hover:bg-white hover:text-black font-bold px-2 bg-black text-white"
+          className="text-white px-2 cursor-pointer"
         >
           Menu
-        </button>
+        </div>
         </div>
         {/* <Drawer isOpen={isDrawerOpen} onClose={toggleDrawer}>
         <h2>Drawer Content</h2>
@@ -51,7 +55,7 @@ const NavBar = () => {
         <Modal
           showModal={showModal}
           setShowModal={setShowModal}
-          height={700}
+          height={725}
           width={500}
         />
        

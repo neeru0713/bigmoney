@@ -1,3 +1,29 @@
+
+:root {
+  --blue: #2a4c8d;
+  /* --green: #1d483a; */
+  --dirty-red: #581717;
+  --wine: #651a1a;
+  --teal: #1c5d64;
+  --primary: #591718;
+  --secondary: #B36565;
+  --accent: #D95F3A;
+  --linearPrimarySecondary: linear-gradient(#591718, #B36565);
+--linearPrimaryAccent: linear-gradient(#591718, #D95F3A);
+--linearSecondaryAccent: linear-gradient(#B36565, #D95F3A);
+--radialPrimarySecondary: radial-gradient(#591718, #B36565);
+--radialPrimaryAccent: radial-gradient(#591718, #D95F3A);
+--radialSecondaryAccent: radial-gradient(#B36565, #D95F3A);
+
+}
+
+
+.text-gradient {
+  background: var(--radialPrimaryAccent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -37,3 +63,13 @@ th{
 td{
   width: 12.5%;
 }
+
+tr:last-child td{
+  border: none;
+}
+
+/* 2a4c8d  blue */
+/* #1d483a green */
+/* #581717 dirty red */
+/* #651a1a wine */
+/* #1c5d64 teal */

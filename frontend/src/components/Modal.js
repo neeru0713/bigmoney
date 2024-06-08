@@ -3,6 +3,7 @@ import Selector from "./Selector";
 import TextField from "./TextField";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import Notification from "./Notification";
+import { RiStockLine } from "react-icons/ri";
 
 const Modal = ({ showModal, setShowModal, width, height }) => {
   const getCurrentTime = () => {
@@ -31,7 +32,7 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
       return acc;
     }, {})
   );
-  const [pageNumber, setPageNumber] = useState(1);
+  const [activeTab, setActiveTab] = useState("basicInfo");
   const [entryPrice, setEntryPrice] = useState();
   const [exitPrice, setExitPrice] = useState();
   const [mistakeTypeValues, SetMistakeTypeValues] = useState("");
@@ -54,14 +55,6 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
     }));
   };
 
-  const nextClickHandler = () => {
-    setPageNumber(pageNumber + 1);
-  };
-
-  const previousClickHandler = () => {
-    setPageNumber(pageNumber - 1);
-  };
-
   useEffect(() => {
     const pnl = lotSizeMap[marketIndex] * lotSize * (exitPrice - entryPrice);
     let returns = ((exitPrice - entryPrice) / entryPrice) * 100;
@@ -80,7 +73,6 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
   let styles = {
     height: `${height}px`,
     width: `${width}px`,
-
   };
 
   const lotSizeMap = {
@@ -240,18 +232,32 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
             className={`modal-content relative rounded-lg flex flex-col fixed p-2 border border-gray-300 top-[8%] left-[35%] bg-white justify-between my-2 ${getShadow()}`}
             style={styles}
           >
-            <div
+            {/* <div
               id="arrow-btns"
               className="absolute flex gap-4 text-xl cursor-pointer right-4 top-4"
             >
               <FaArrowLeft onClick={previousClickHandler} />
               <FaArrowRight onClick={nextClickHandler} />
+            </div> */}
+            <div className="flex flex-col m-2">
+              <RiStockLine className="text-5xl  border rounded-md p-2 text-accent-400 border-primary" />
+              <div className="flex flex-col gap-2">
+                <h1 className="font-bold text-2xl text-gradient mt-3">
+                  Create new trade
+                </h1>
+                <div className="flex flex-col">
+                  <div class="tabs flex">
+                  <h2 onClick={() => (setActiveTab("basicInfo"))} className={`p-2 cursor-pointer text-md font-bold ${activeTab === 'basicInfo' ? 'border-b-4 border-secondary' : ''} `}>Basic Info</h2>
+                  <h2 onClick={() => (setActiveTab("checklist"))}className={`p-2 cursor-pointer text-md font-bold ${activeTab === 'checklist' ? 'border-b-4 border-secondary' : ''} `}>checklist</h2>
+                  </div>
+                  <hr className="border-gray-200"/>
+                </div>
+               
+              </div>
             </div>
 
-            {pageNumber === 1 && (
+            {activeTab === "basicInfo" && (
               <div id="basic-form">
-                <h2 className="p-2 text-2xl font-bold">Basic Info</h2>
-
                 <Selector
                   name="market-index"
                   options={indexOptions}
@@ -342,7 +348,7 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
               </div>
             )}
 
-            {pageNumber === 2 && (
+            {activeTab === "checklist" && (
               <div id="setUp-checklist">
                 <h2 className="p-2 text-2xl font-bold">Checklist</h2>
                 {checklistItems.map((item, index) => (
@@ -360,25 +366,22 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
               </div>
             )}
 
-            {pageNumber === 3 && <div></div>}
-
-            <div className="cancel-save flex gap-5 m-2 justify-end">
+            <div className="cancel-save flex gap-5 m-2 justify-end ">
               <button
                 onClick={() => {
                   setShowModal(false);
                 }}
-                className="border border-red-600 rounded-md bg-white font-bold text-red-500 p-2 hover:bg-red-500 hover:text-white"
+                className="rounded-md bg-accent-950 font-bold p-2 "
               >
                 Cancel
               </button>
-              {pageNumber === 2 && (
-                <button
-                  onClick={saveHandler}
-                  className="border border-[#0a9981] font-bold rounded-md bg-white text-[#0a9981] px-2 hover:bg-[#0a9981] hover:text-white"
-                >
-                  Save
-                </button>
-              )}
+
+              <button
+                onClick={saveHandler}
+                className="font-bold rounded-md bg-accent-400 text-white px-2"
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
