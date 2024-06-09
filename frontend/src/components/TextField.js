@@ -12,6 +12,8 @@ const TextField = ({
   checked,
   children,
   width,
+  checkBoxWeight,
+  checkBoxHeight
 }) => {
   let styles = {
     color: color,
@@ -19,7 +21,7 @@ const TextField = ({
   };
 
   if (type === "checkbox") {
-    styles = { ...styles, height: "1.3rem", width: "1.3rem" };
+    styles = { ...styles, height: `${checkBoxHeight}rem`, width: `${checkBoxWeight}rem`};
   }
 
   const inputChangeHandler = (event) => {

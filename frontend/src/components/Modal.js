@@ -5,7 +5,8 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import Notification from "./Notification";
 import { RiStockLine } from "react-icons/ri";
 import { API_URL } from "../config.js";
-const Modal = ({ showModal, setShowModal, width, height }) => {
+
+const Modal = ({ showModal, setShowModal, width, height, checkBoxWeight, checkBoxHeight}) => {
   const getCurrentTime = () => {
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, "0");
@@ -21,9 +22,6 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
     "Big bar with equal wicks",
     "Waited for pullback",
     "Direct Entry",
-    "1:1",
-    "1:2",
-    "1:3",
   ];
 
   const [checkList, setCheckList] = useState(
@@ -47,6 +45,15 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
   const [notificationType, setNotificationType] = useState("success");
   const [message, setMessage] = useState("");
   const [isShow, setIsShow] = useState(false);
+  const [riskRewardRatio, setRiskRewardRatio] = useState(2);
+  const [backTest, setBackTest] = useState(false);
+  const [setUpCondtions, setSetUpCondtions] = useState()
+ 
+
+  const handleBackTestCheckBoxChange = (item) => {
+    alert("handleBackTestCheckBoxChange");
+    setBackTest(!backTest);
+  };
 
   const handleCheckboxChange = (item) => {
     setCheckList((prevState) => ({
@@ -82,6 +89,53 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
     FN: 40,
     MN: 75,
   };
+
+  const riskRewardRatioOptions = [
+    {
+      value: "1",
+      label: "1: 1",
+    },
+    {
+      value: "2",
+      label: "1: 2",
+    },
+    {
+      value: "3",
+      label: "1: 3",
+    },
+    {
+      value: "4",
+      label: "1: 4",
+    },
+    {
+      value: "5",
+      label: "1: 5",
+    },
+    {
+      value: "6",
+      label: "1: 6",
+    },
+    {
+      value: "7",
+      label: "1: 7",
+    },
+    {
+      value: "8",
+      label: "1: 8",
+    },
+    {
+      value: "9",
+      label: "1: 9",
+    },
+    {
+      value: "10",
+      label: "1: 10",
+    },
+    {
+      value: "11",
+      label: "1: 10+",
+    },
+  ];
 
   const indexOptions = [
     {
@@ -196,6 +250,10 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
       date,
       time,
       checkedItems,
+      riskRewardRatio,
+      backTest,
+      setUpCondtions,
+
     };
 
     const url = `${API_URL}/api/trade`;
@@ -230,7 +288,7 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
       {showModal && (
         <div className="modal-overlay">
           <div
-            className={`modal-content relative rounded-lg flex flex-col fixed p-2 border border-gray-300 top-[8%] left-[35%] bg-white justify-between my-2 ${getShadow()}`}
+            className={`modal-content relative rounded-lg flex flex-col fixed p-2 border border-gray-300 top-[8%] left-[35%] bg-white  border-b border-gray-300 ${getShadow()}`}
             style={styles}
           >
             {/* <div
@@ -248,12 +306,29 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
                 </h1>
                 <div className="flex flex-col">
                   <div class="tabs flex">
-                  <h2 onClick={() => (setActiveTab("basicInfo"))} className={`p-2 cursor-pointer text-md font-bold ${activeTab === 'basicInfo' ? 'border-b-4 border-secondary' : ''} `}>Basic Info</h2>
-                  <h2 onClick={() => (setActiveTab("checklist"))}className={`p-2 cursor-pointer text-md font-bold ${activeTab === 'checklist' ? 'border-b-4 border-secondary' : ''} `}>checklist</h2>
+                    <h2
+                      onClick={() => setActiveTab("basicInfo")}
+                      className={`p-2 cursor-pointer text-md font-bold ${
+                        activeTab === "basicInfo"
+                          ? "border-b-4 border-secondary"
+                          : ""
+                      } `}
+                    >
+                      Basic Info
+                    </h2>
+                    <h2
+                      onClick={() => setActiveTab("checklist")}
+                      className={`p-2 cursor-pointer text-md font-bold ${
+                        activeTab === "checklist"
+                          ? "border-b-4 border-secondary"
+                          : ""
+                      } `}
+                    >
+                      Checklist
+                    </h2>
                   </div>
-                  <hr className="border-gray-200"/>
+                  <hr className="border-gray-200" />
                 </div>
-               
               </div>
             </div>
 
@@ -272,35 +347,39 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
                   value={lotSize}
                   updateValue={setLotSize}
                 />
-                <TextField
-                  type="date"
-                  id="date"
-                  name="date"
-                  value={date}
-                  updateValue={setDate}
-                />
-                <TextField
-                  type="time"
-                  id="time"
-                  name="time"
-                  value={time}
-                  updateValue={setTime}
-                />
-                <TextField
-                  type="number"
-                  placeholder="Entry Price"
-                  name="Entry Price"
-                  value={entryPrice}
-                  updateValue={setEntryPrice}
-                />
+                <div className="flex gap-[14%]">
+                  <TextField
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={date}
+                    updateValue={setDate}
+                  />
+                  <TextField
+                    type="time"
+                    id="time"
+                    name="time"
+                    value={time}
+                    updateValue={setTime}
+                  />
+                </div>
+                <div className="flex gap-5">
+                  <TextField
+                    type="number"
+                    placeholder="Entry Price"
+                    name="Entry Price"
+                    value={entryPrice}
+                    updateValue={setEntryPrice}
+                  />
 
-                <TextField
-                  type="number"
-                  placeholder="Exit Price"
-                  name="Exit Price"
-                  value={exitPrice}
-                  updateValue={setExitPrice}
-                />
+                  <TextField
+                    type="number"
+                    placeholder="Exit Price"
+                    name="Exit Price"
+                    value={exitPrice}
+                    updateValue={setExitPrice}
+                  />
+                </div>
                 <div className="flex items-center gap-4">
                   <TextField
                     type="number"
@@ -346,12 +425,25 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
                     updateValue={SetMistakeTypeValues}
                   />
                 ) : null}
+                <Selector
+                  name="Risk/Reward Ratio"
+                  options={riskRewardRatioOptions}
+                  value={riskRewardRatio}
+                  updateValue={setRiskRewardRatio}
+                />
+                <TextField
+                  type="checkbox"
+                  checked={backTest}
+                  name="Back Test"
+                  updateValue={handleBackTestCheckBoxChange}
+                >
+                  <h1 className="font-semibold">BackTest</h1>
+                </TextField>
               </div>
             )}
 
             {activeTab === "checklist" && (
               <div id="setUp-checklist">
-                <h2 className="p-2 text-2xl font-bold">Checklist</h2>
                 {checklistItems.map((item, index) => (
                   <div className="flex items-center mt-4 gap-2" key={index}>
                     <TextField
@@ -359,6 +451,8 @@ const Modal = ({ showModal, setShowModal, width, height }) => {
                       checked={checkList[item]}
                       name={item}
                       updateValue={handleCheckboxChange}
+                      checkBoxHeight="1.5"
+                      checkBoxWeight="1.5"
                     >
                       <h1 className="text-lg font-semibold ml-2">{item}</h1>
                     </TextField>

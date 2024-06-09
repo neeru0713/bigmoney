@@ -58,8 +58,16 @@ const tradeSchema = mongoose.Schema(
     },
     setupCheckList: {
       type: [String],
+    },
+    backTest: {
+      type: Boolean,
+    },
+    riskRewardRatio: {
+      type: Number,
+    },
+    setUpCondtions: {
+      type: String,
     }
-
   },
   { timestamps: true }
 );
