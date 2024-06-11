@@ -28,7 +28,7 @@ const TextField = ({
     if (type === "checkbox") {
       updateValue(name);
     } else if (type === "number") {
-      updateValue(parseInt(event.target.value));
+      updateValue(parseFloat(event.target.value));
     } else {
       updateValue(event.target.value);
     }
